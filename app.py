@@ -7,7 +7,6 @@ from amharic_filter import AmharicFilter
 from utils import Utils
 
 # import joblib
-# import tensorflow as tf
 # from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import load_model
@@ -29,50 +28,9 @@ addressBaseUrl = 'https://maps.googleapis.com/maps/api/geocode/json'
 # app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-# async def get_data(seconds):
-#     endpoint = f'delay/{seconds}'
-
-#     print(f'Getting data with {seconds} seconds delay')
-
-#     async with ClientSession() as session:
-#         async with session.get(f'{baseUrl}{endpoint}') as response:
-#             return await response.json()
-
-
 @app.route('/')
 async def home():
     return "Hello World"
-
-
-# @app.route('/check')
-# @cross_origin()
-# def check():
-#     tf.saved_model.LoadOptions(
-#         experimental_io_device=None
-#     )
-#     tokenizer = Tokenizer(num_words=5000)
-
-#     new_model = tf.keras.models.load_model('./my_model')
-
-#     test_word = "የጉራጌ ዘር ከሃዲ ነው።"
-
-#     tw = tokenizer.texts_to_sequences([test_word])
-#     tw = pad_sequences(tw, maxlen=200)
-
-#     return new_model.predict(tw).item()
-
-
-# @app.route('/checkhate', methods=['GET', 'POST'])
-# @cross_origin()
-# async def checkhate():
-#     if request.method == 'GET':
-#         data = await get_data(2)
-#         return data
-#     if request.method == 'POST':
-#         data = request.json
-#         return data
-#     else:
-#         return 'Invalid request'
 
 
 async def get_address(address):
@@ -104,15 +62,19 @@ def predict_from_sentence(sentence):
     # return "Prediction Result here"
 
 
-# @app.route('/predict', methods=['POST'])
-# @cross_origin()
-def predict(sentence):
-    prediction = 0
-    prediction = predict_from_sentence(sentence)
-    return prediction
+@app.route('/predict_from_text', methods=['POST'])
+def predict():
+    try:
+        data = request.json
+        sentence = data['sentence']
+        prediction = -1
+        prediction = predict_from_sentence(sentence)
+        return jsonify({'sentence': sentence, 'prediction': prediction}), 200
+    except Exception as e:
+        return jsonify({'sentence': sentence, 'error': e}), 400
 
 
-@app.route('/gettweetdata', methods=['GET', 'POST'])
+@app.route('/predict_from_tweetid', methods=['GET', 'POST'])
 async def get_tweet_data():
     if request.method == 'GET':
         return jsonify({'message': 'Method Not Allowed'}), 405
@@ -154,7 +116,7 @@ async def get_tweet_data():
         print(amf.getData())
 
         try:
-            pr = predict(normalized)
+            pr = predict_from_sentence(normalized)
             return jsonify({'sentence': normalized, 'prediction': pr, 'tweet_data': amf.getData()}), 200
         except Exception as e:
             return jsonify({'sentence': normalized, 'error': e}), 400
