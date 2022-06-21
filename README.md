@@ -57,6 +57,6 @@ This REST-API server is used by our front-end platform to predict texts and twee
 
 ## References and Documentations used while developing this project
 
-* [How to Deploy Flask App on Lenode Server](https://www.youtube.com/watch?v=BpcK5jON6Cg)
-* [How to save and load models using tensorflow](https://www.tensorflow.org/tutorials/keras/save_and_load)
-* [Making series of async requests with python](https://stackoverflow.com/questions/58758081/asyncio-aiohttp-how-to-make-series-of-async-but-dependent-requests)
+* Youtube.com. 2021. Deploy Flask Application on Ubuntu VPS using Nginx. [online] Available at: <https://www.youtube.com/watch?v=BpcK5jON6Cg> [Accessed 21 June 2022].
+* TensorFlow. 2022. Save and load models  |  TensorFlow Core. [online] Available at: <https://www.tensorflow.org/tutorials/keras/save_and_load> [Accessed 21 June 2022].
+* requests?, a., 2019. asyncio/aiohttp - How to make series of async - but dependent - requests?. [online] Stack Overflow. Available at: <https://stackoverflow.com/questions/58758081/asyncio-aiohttp-how-to-make-series-of-async-but-dependent-requests> [Accessed 21 June 2022].
